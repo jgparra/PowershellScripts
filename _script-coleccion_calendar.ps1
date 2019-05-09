@@ -55,6 +55,6 @@ Foreach ($cpt in $carpetas) {
 
 $timer = (Get-Date -Format yyy-mm-dd-hhmm)
 
-$cfs | export-csv -notypeinformation -path "c:\temp\EXO-CalendarShares_" + $timer + ".csv"
+$cfs | export-csv -notypeinformation -path "c:\temp\EXO-CalendarShares-$timer.csv"
 
 #---
