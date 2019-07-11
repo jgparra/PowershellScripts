@@ -27,6 +27,7 @@ If (!(Get-Module -ListAvailable | Where-Object { $_.Name -eq "7Zip4Powershell" }
 	exit;
 }
 else {
+	Write-Host "loading module 7Zip4Powershell"
 	Import-Module 7Zip4Powershell
 }
 #endregion
