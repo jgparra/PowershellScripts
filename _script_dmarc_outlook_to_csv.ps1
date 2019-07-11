@@ -88,7 +88,7 @@ $resultrowreport = @()
 
 
 foreach ($xmlFile in $allxmls) {
-	write-verbose "::> working on $($xmlFile.Fullname)" -ForegroundColor Green
+#	write-host "::> working on $($xmlFile.Fullname)" -ForegroundColor Green
 	try {
 		$xmlContent = [xml](Get-Content $xmlFile.Fullname)
 	}
