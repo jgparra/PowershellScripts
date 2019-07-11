@@ -12,6 +12,10 @@
 	.DESCRIPTION
 		script para creacion de reporte csv desde archivos en una carpeta 
 		que contiene los reportes DMARC. tambien deja archivos xml para analisis
+
+		requires module 7Zip4Powershell
+		install by using command
+		install-module 7Zip4Powershell -force
 #>
 
 # recursos
