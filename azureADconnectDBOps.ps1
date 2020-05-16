@@ -116,7 +116,7 @@ function execSQLCMD {
 	Write-Host "instancia: $instancia" -ForegroundColor Cyan
 	
 #	$comando = "sqlcmd -S np:\\.\pipe\$instancia\tsql\query"
-	$comando = "sqlcmd -S np:\\.\pipe\$instancia\tsql\query -Q `"$SQLAction`" "
+	$comando = "sqlcmd -S np:\\.\pipe\$instancia\tsql\query -W -Q `"$SQLAction`" "
 	
 	Write-Host "ejecutando: $comando"
 	Invoke-Expression $comando	
