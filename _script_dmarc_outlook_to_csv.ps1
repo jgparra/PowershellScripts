@@ -7,7 +7,7 @@
 	 Created by:   	gregorio dot parra at microsoft dot com
 	 Organization: 	
 	 Filename:     	_script_dmarc_outlook_to_csv.ps1
-	 Version:		1.0
+	 Version:		1.1
 	===========================================================================
 	.DESCRIPTION
 		script para creacion de reporte csv desde archivos en una carpeta 
@@ -16,6 +16,10 @@
 		requires module 7Zip4Powershell
 		install by using command
 		install-module 7Zip4Powershell -force
+
+		Versions 
+		1.1 10/22/2019	change to dynamic set
+		1.0	7/11/2019	initial version
 #>
 
 # recursos
@@ -31,6 +35,8 @@ else {
 	Import-Module 7Zip4Powershell
 }
 #endregion
+
+
 
 #region crea dir
 $execdir = "DMARC-CSV_$(get-date -f yyyy-MM-dd_HH-mm)"
@@ -59,12 +65,14 @@ $f.Items | foreach {
 		}
 	}
 }
+Get-Process -Name OUTLOOK | Stop-Process
 #endregion
 
+
 #region process adjuntos para entregar un csv
-#$tmpfolder = 'c:\temp\hdi\6-28'
-$filereport = "report.csv"
-$filerecord = "record.csv"
+#$workingDir = 'C:\Users\grego\AppData\Local\Temp\DMARC-CSV_2019-08-26_12-55'
+#$filereport = "report.csv"
+#$filerecord = "record.csv"
 
 
 # Expand-7Zip -ArchiveFileName -TargetPath $MessagePath
@@ -74,20 +82,24 @@ Foreach ($zfile in $Zfiles) {
 #	Write-Host $zfile
 	try {
 		Expand-7Zip -ArchiveFileName $zfile.fullname -TargetPath "$workingDir\xml" -ErrorAction Stop
-	}  catch [System.Exception] { <# write-host "archivo tar: {0}" -f  $_.Exception.Message#> }
+	}  catch [System.Exception] { <# write-host "archivo tar: {0}" -f  $_.Exception.Message #>	}
 }
 #sobre los expandidos, cambia ext de tar a xml
 foreach ($TarXML in $(Get-ChildItem -Path "$workingDir\xml" -Filter "*.xml.tar")) { Move-Item -Path $TarXML.Fullname -Destination "$($TarXML.Fullname).xml" }
 
 ##
-$allxmls = $(Get-ChildItem -Path "$workingDir\xml" -Filter "*.xml")
+$allxmls = $(Get-ChildItem -Path "$workingDir\xml" -Filter "*.xml") | Sort-Object Length -Descending
 $total = $allxmls.count
 write-host "numero total xmls: $total"
-$resultfilereport = @()
-$resultrowreport = @()
-
+#$resultfilereport = @()
+$resultfilereport = [System.Collections.ArrayList]::new()
+#$resultrowreport = @()
+$resultrowreport = [System.Collections.ArrayList]::new()
+$i = 0
 
 foreach ($xmlFile in $allxmls) {
+	$i++
+	write-host "::|$i|> working on $($xmlFile.Fullname)" -ForegroundColor Green -noNewLine
 #	write-host "::> working on $($xmlFile.Fullname)" -ForegroundColor Green
 	try {
 		$xmlContent = [xml](Get-Content $xmlFile.Fullname)
@@ -97,7 +109,7 @@ foreach ($xmlFile in $allxmls) {
 	$rkprefix = "$($xmlFile.Fullname)"
 	#    $rkprefix = "$($xmlContent.feedback.report_metadata.org_name)_$($xmlContent.feedback.report_metadata.report_id)"
 	foreach ($feedback in $xmlContent.feedback) {
-		
+		write-host " |$($feedback.record.count)|" -foregroundcolor cyan
 		
 		$filereport = new-object System.Object -erroraction SilentlyContinue
 		$filereport | add-member -type noteproperty -name fileID -value $rkprefix
@@ -115,10 +127,14 @@ foreach ($xmlFile in $allxmls) {
 		$filereport | add-member -type noteproperty -name pp_p -value $feedback.policy_published.p
 		$filereport | add-member -type noteproperty -name pp_sp -value $feedback.policy_published.sp
 		$filereport | add-member -type noteproperty -name pp_pct -value $feedback.policy_published.pct
-		$resultfilereport += $filereport
+#		$resultfilereport += $filereport
+		[void]$resultfilereport.Add($filereport)
+		
 		#review rows
+		$j = 0
 		foreach ($record in $feedback.record) {
-#			write-host "." -NoNewline -ForegroundColor Yellow
+			$j++
+			if ($j % 100 -eq 0) {write-host "."  -NoNewline -ForegroundColor Yellow}
 			$rowreport = new-object System.Object -erroraction SilentlyContinue
 			$rowreport | add-member -type noteproperty -name fileID -value $rkprefix
 			#row
@@ -132,14 +148,31 @@ foreach ($xmlFile in $allxmls) {
 			#identifiers
 			$rowreport | add-member -type noteproperty -name header_from -value $record.identifiers.header_from
 			#auth
-			$rowreport | add-member -type noteproperty -name dkim_result -value $record.auth_results.dkim.result
-			$rowreport | add-member -type noteproperty -name dkim_domain -value $record.auth_results.dkim.domain
-			$rowreport | add-member -type noteproperty -name dkim_selector -value $record.auth_results.dkim.selector
-			
+			#dkim result
+			if ($record.auth_results.dkim.count -gt 1) {
+				$textoresult = ""
+				$textodomain = ""
+				$textoselector = ""
+				foreach ($dkim in $($record.auth_results.dkim)) {
+					$textoresult += "$($dkim.result)|"
+					$textodomain += "$($dkim.domain)|"
+					$textoselector += "$($dkim.selector)|"
+				}
+				$rowreport | add-member -type noteproperty -name dkim_result -value $textoresult
+				$rowreport | add-member -type noteproperty -name dkim_domain -value $textodomain
+				$rowreport | add-member -type noteproperty -name dkim_selector -value $textoselector			}
+			else
+			{
+				$rowreport | add-member -type noteproperty -name dkim_result -value $record.auth_results.dkim.result
+				$rowreport | add-member -type noteproperty -name dkim_domain -value $record.auth_results.dkim.domain
+				$rowreport | add-member -type noteproperty -name dkim_selector -value $record.auth_results.dkim.selector
+			}
+			#spf result
 			$rowreport | add-member -type noteproperty -name spf_result -value $record.auth_results.spf.result
 			$rowreport | add-member -type noteproperty -name spf_domain -value $record.auth_results.spf.domain
 			
-			$resultrowreport += $rowreport
+#			$resultrowreport += $rowreport
+			[void]$resultrowreport.Add($rowreport)
 		}
 	}
 }
