@@ -3,6 +3,14 @@ This repository is to publish possible useful PowerShell Scripts
 I will publish some Useful scripts related to different topics, like Exchange, AD Connect
 and troubleshooting actions
 
+## Exchange scripts folder
+
+- [Exchange_onprem_online](Exchange_onprem_online)
+- [Exchange_onprem_online/Exchange_onprem_online.md](Exchange_onprem_online/Exchange_onprem_online.md)
+
+This folder contains scripts related to Exchange Online and Exchange On-Premises.
+Esta carpeta contiene scripts relacionados con Exchange Online y Exchange On-Premises.
+
 ## DMARC export (Outlook -> CSV)
 
 Short description:
