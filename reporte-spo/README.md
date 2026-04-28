@@ -17,7 +17,7 @@ El script conecta al centro de administración de SharePoint Online, recopila la
 
 ## Requisitos
 
-- **PowerShell** 5.1 o superior
+- **Windows PowerShell** 5.1 o superior **(por el momento no se ejecuta bien en PowerShell 7.0+)**
 - **Módulo**: `Microsoft.Online.SharePoint.PowerShell`
 - **Permisos**: Administrador de SharePoint Online (rol *SharePoint Administrator*)
 
