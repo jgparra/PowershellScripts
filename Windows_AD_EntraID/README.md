@@ -1,14 +1,14 @@
 # Windows AD / Entra ID Scripts
 
-Scripts for on-premises Active Directory and Microsoft Entra ID (Azure AD) administration and auditing.
+Scripts for on-premises Active Directory, Microsoft Entra ID (Azure AD), and Azure AD Connect administration and auditing.
 
-Scripts para administración y auditoría de Active Directory on-premises y Microsoft Entra ID (Azure AD).
+Scripts para administración y auditoría de Active Directory on-premises, Microsoft Entra ID (Azure AD) y Azure AD Connect.
 
 ---
 
 ## 📋 Available Scripts / Scripts Disponibles
 
-### TLS Security Audit
+### 1. TLS Security Audit
 
 **📄 Script:** `TLS_Security_Audit.ps1`
 
@@ -34,9 +34,122 @@ Script de auditoría de seguridad que analiza la configuración de TLS y cipher 
 - Configuración del registro de Windows (SCHANNEL)
 - Identificación de protocolos y cipher suites inseguros
 
+#### Prerequisites / Requisitos
+
+**English:**
+- **Windows PowerShell** 5.1 or higher
+- **Permissions:** Run as Administrator (recommended for full registry access)
+- **OS:** Windows Server 2012+ / Windows 8+
+
+**Español:**
+- **Windows PowerShell** 5.1 o superior
+- **Permisos:** Ejecutar como Administrador (recomendado para acceso completo al registro)
+- **SO:** Windows Server 2012+ / Windows 8+
+
+#### Usage / Uso
+
+```powershell
+# Run as Administrator / Ejecutar como Administrador
+.\TLS_Security_Audit.ps1
+```
+
+---
+
+### 2. Azure AD Connect Database Operations
+
+**📄 Script:** `azureADconnectDBOps.ps1`
+
+#### Description / Descripción
+
+**English:**
+
+Interactive diagnostic tool for Azure AD Connect (formerly DirSync) SQL database. Provides menu-driven interface to query and analyze the ADSync database for troubleshooting and space management.
+
+**Features:**
+- Database space usage analysis
+- Object count reporting (metaverse and connector space)
+- SQL error log review
+- Database fragmentation analysis
+- Table space usage breakdown
+
+**Note:** This tool is **not officially supported by Microsoft**. Created for troubleshooting scenarios.
+
+**Español:**
+
+Herramienta de diagnóstico interactiva para la base de datos SQL de Azure AD Connect (anteriormente DirSync). Proporciona interfaz de menú para consultar y analizar la base de datos ADSync para resolución de problemas y gestión de espacio.
+
+**Funcionalidades:**
+- Análisis de uso de espacio de base de datos
+- Reporte de conteo de objetos (metaverse y connector space)
+- Revisión de log de errores SQL
+- Análisis de fragmentación de base de datos
+- Desglose de uso de espacio por tabla
+
+**Nota:** Esta herramienta **no tiene soporte oficial de Microsoft**. Creada para escenarios de resolución de problemas.
+
+#### Menu Options / Opciones del Menú
+
+| Option | English | Español |
+|---|---|---|
+| **1** | Get space used | Obtener espacio usado |
+| **2** | Get object count | Obtener conteo de objetos |
+| **3** | Get error log | Obtener log de errores |
+| **4** | Get DB fragmentation | Obtener fragmentación de DB |
+| **5** | Get table space used | Obtener espacio usado por tabla |
+| **98** | Restart the server | Reiniciar el servidor |
+| **99** | Exit | Salir |
+
+#### Prerequisites / Requisitos
+
+**English:**
+- Must be run on the **Azure AD Connect server**
+- **Windows PowerShell** 5.1 or higher
+- **Permissions:** Administrator access to query LocalDB instance
+- SQL LocalDB instance must be running
+
+**Español:**
+- Debe ejecutarse en el **servidor de Azure AD Connect**
+- **Windows PowerShell** 5.1 o superior
+- **Permisos:** Acceso de Administrador para consultar instancia LocalDB
+- La instancia SQL LocalDB debe estar ejecutándose
+
+#### Usage / Uso
+
+```powershell
+.\azureADconnectDBOps.ps1
+```
+
+**English:** The script presents an interactive menu. Select options 1-5 for diagnostics, 99 to exit.
+
+**Español:** El script presenta un menú interactivo. Seleccione opciones 1-5 para diagnósticos, 99 para salir.
+
+#### Output Information / Información de Salida
+
+**English:**
+
+Each menu option queries the ADSync SQL database and returns:
+
+1. **Space Used:** Database version, total size, used/unused space
+2. **Object Count:** Count of objects by type in metaverse and connector space
+3. **Error Log:** Recent SQL Server error log entries
+4. **Fragmentation:** Index fragmentation percentage for tables
+5. **Table Space:** Detailed breakdown of space usage per table (KB)
+
+**Español:**
+
+Cada opción del menú consulta la base de datos SQL ADSync y devuelve:
+
+1. **Espacio Usado:** Versión de base de datos, tamaño total, espacio usado/sin usar
+2. **Conteo de Objetos:** Conteo de objetos por tipo en metaverse y connector space
+3. **Log de Errores:** Entradas recientes del log de errores de SQL Server
+4. **Fragmentación:** Porcentaje de fragmentación de índices por tabla
+5. **Espacio de Tabla:** Desglose detallado de uso de espacio por tabla (KB)
+
 ---
 
 ## ✨ Features / Características
+
+### TLS Security Audit
 
 **English:**
 - ✅ Verifies TLS 1.0, 1.1, 1.2, and 1.3 configuration
@@ -51,6 +164,24 @@ Script de auditoría de seguridad que analiza la configuración de TLS y cipher 
 - ✅ Genera reporte estructurado con niveles de severidad
 - ✅ Proporciona recomendaciones de seguridad
 - ✅ No requiere módulos externos
+
+### Azure AD Connect DB Operations
+
+**English:**
+- ✅ Interactive menu-driven interface
+- ✅ Real-time SQL database diagnostics
+- ✅ Space usage and fragmentation analysis
+- ✅ Object counting for capacity planning
+- ✅ Error log review capabilities
+- ✅ No external SQL tools required (uses sqlcmd)
+
+**Español:**
+- ✅ Interfaz interactiva basada en menú
+- ✅ Diagnósticos de base de datos SQL en tiempo real
+- ✅ Análisis de uso de espacio y fragmentación
+- ✅ Conteo de objetos para planificación de capacidad
+- ✅ Capacidades de revisión de logs de error
+- ✅ No requiere herramientas SQL externas (usa sqlcmd)
 
 ---
 

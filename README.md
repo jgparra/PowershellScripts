@@ -69,16 +69,20 @@ Repositorio de scripts útiles de PowerShell relacionados con Exchange, Active D
 **📄 Documentation:** [README.md](Windows_AD_EntraID/README.md)
 
 **English:**
-- Scripts for on-premises Active Directory and Microsoft Entra ID (Azure AD)
+- Scripts for on-premises Active Directory, Microsoft Entra ID (Azure AD), and Azure AD Connect
 - **TLS Security Audit:** Analyzes TLS protocol versions and cipher suite configurations
+- **Azure AD Connect DB Operations:** Interactive diagnostic tool for ADSync database troubleshooting
 - Identifies security vulnerabilities (weak protocols, insecure cipher suites)
+- Database space management and fragmentation analysis
 - Provides structured audit results with severity levels and recommendations
 - No external modules required
 
 **Español:**
-- Scripts para Active Directory on-premises y Microsoft Entra ID (Azure AD)
+- Scripts para Active Directory on-premises, Microsoft Entra ID (Azure AD) y Azure AD Connect
 - **Auditoría de Seguridad TLS:** Analiza versiones de protocolo TLS y configuraciones de cipher suites
+- **Operaciones de BD Azure AD Connect:** Herramienta de diagnóstico interactiva para resolución de problemas de base de datos ADSync
 - Identifica vulnerabilidades de seguridad (protocolos débiles, cipher suites inseguros)
+- Gestión de espacio de base de datos y análisis de fragmentación
 - Proporciona resultados de auditoría estructurados con niveles de severidad y recomendaciones
 - No requiere módulos externos
 
