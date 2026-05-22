@@ -100,6 +100,18 @@ Scripts de inventario, diagnóstico y reportería para entornos Exchange Online 
 
 ---
 
+### 5. exchschemaversion.ps1
+
+**English:**
+- **Purpose:** Detects Exchange Server version by querying Active Directory schema, organization, and domain version numbers
+- **Coverage:** Supports all Exchange versions from 2000 to 2019/Subscription Edition (SE) including all service packs and cumulative updates
+
+**Español:**
+- **Objetivo:** Detecta la versión de Exchange Server consultando los números de versión de schema, organización y dominio en Active Directory
+- **Cobertura:** Soporta todas las versiones de Exchange desde 2000 hasta 2019/Subscription Edition (SE) incluyendo todos los service packs y cumulative updates
+
+---
+
 ## ⚠️ Important Notes / Notas Importantes
 
 **English:**
