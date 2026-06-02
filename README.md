@@ -88,6 +88,27 @@ Repositorio de scripts útiles de PowerShell relacionados con Exchange, Active D
 
 ---
 
+### 5. Network Scripts
+
+**📂 Folder:** [Network](Network)  
+**📄 Documentation:** [README.md](Network/README.md)
+
+**English:**
+- Network diagnostics scripts for Microsoft 365 connectivity and proxy source attribution
+- **TLS Connectivity & Certificate Inspection:** validates port 443 reachability, extracts certificate details, and detects TLS interception
+- **Proxy Attribution Tool:** identifies proxy configuration origin using WinINet, WinHTTP, GPO, WPAD, and PAC validation
+- Supports direct and explicit-proxy scenarios
+- Generates actionable console output and timestamped artifacts (TXT/JSON)
+
+**Español:**
+- Scripts de diagnóstico de red para conectividad de Microsoft 365 y atribución de origen de proxy
+- **Inspección TLS y Certificados:** valida alcance por puerto 443, extrae detalles de certificado y detecta interceptación TLS
+- **Herramienta de Atribución de Proxy:** identifica origen de configuración de proxy usando WinINet, WinHTTP, GPO, WPAD y validación PAC
+- Soporta escenarios de conexión directa y proxy explícito
+- Genera salida accionable en consola y artefactos con timestamp (TXT/JSON)
+
+---
+
 ## 💬 Feedback
 
 Any feedback is very valuable!  
