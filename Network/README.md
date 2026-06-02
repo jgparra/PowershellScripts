@@ -106,6 +106,63 @@ Scripts para validación de conectividad de red, inspección de certificados TLS
 
 ---
 
+### 3. Analyze-TlsCapturesforCertificates.ps1
+
+**English:**
+- **Purpose:** Analyzes PCAP/PCAPNG captures offline to identify TLS/SSL handshakes, relevant ports, requested destinations, and certificate details observed during negotiation.
+- **Focus:**
+  - Fast HTTPS/TLS traffic investigation in explicit proxy and direct scenarios
+  - TCP stream correlation using SNI and/or HTTP CONNECT evidence
+  - Certificate extraction (Subject, Issuer, validity period, thumbprint)
+- **Input Modes:**
+  - Single capture file via `-InputFile`
+  - Folder scan via `-InputPath` (all `.pcap` / `.pcapng` files)
+- **Output:**
+  - Consolidated console report
+  - Optional exports in TXT, JSON, and CSV
+
+**Español:**
+- **Objetivo:** Analiza capturas PCAP/PCAPNG de forma offline para identificar handshakes TLS/SSL, puertos relevantes, destinos solicitados y detalles de certificados observados durante la negociación.
+- **Enfoque:**
+  - Investigación rápida de tráfico HTTPS/TLS en escenarios con proxy explícito y conexión directa
+  - Correlación por flujo TCP con evidencia de SNI y/o CONNECT HTTP
+  - Extracción de certificados (Subject, Issuer, vigencia, thumbprint)
+- **Modos de Entrada:**
+  - Archivo de captura único con `-InputFile`
+  - Carpeta completa con `-InputPath` (todos los `.pcap` / `.pcapng`)
+- **Salida:**
+  - Reporte consolidado en consola
+  - Exportes opcionales en TXT, JSON y CSV
+
+#### Parameters / Parámetros
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `InputFile` | `string` | N/A | Single `.pcap`/`.pcapng` file for analysis (ByFile mode) / Archivo `.pcap`/`.pcapng` único para análisis (modo ByFile) |
+| `InputPath` | `string` | N/A | Folder containing `.pcap`/`.pcapng` files (ByPath mode) / Carpeta con archivos `.pcap`/`.pcapng` (modo ByPath) |
+| `ProxyPorts` | `int[]` | `8080,3128,3129,8000,8888,8118` | Proxy ports prioritized in report ordering / Puertos de proxy priorizados en el reporte |
+| `NonInteractive` | `switch` | `false` | Disables prompts for automation/pipelines / Desactiva prompts para automatización/pipelines |
+| `ExportFormats` | `string[]` | `[]` | Export formats: `txt`, `json`, `csv` / Formatos de exportación: `txt`, `json`, `csv` |
+| `OutputDirectory` | `string` | `./reports` | Output folder for exported reports / Carpeta de salida para reportes exportados |
+
+#### Usage / Uso
+
+```powershell
+# Analyze a single capture
+.\Analyze-TlsCapturesforCertificates.ps1 -InputFile .\tls_3128_prx_TLS_inspect_capture.pcap
+
+# Analyze all captures in a folder
+.\Analyze-TlsCapturesforCertificates.ps1 -InputPath .\captures
+
+# Non-interactive run for automation
+.\Analyze-TlsCapturesforCertificates.ps1 -InputPath . -NonInteractive
+
+# Export JSON and CSV to custom directory
+.\Analyze-TlsCapturesforCertificates.ps1 -InputPath . -ExportFormats json,csv -OutputDirectory .\reports
+```
+
+---
+
 ## ⚠️ Notes / Notas
 
 **English:**
